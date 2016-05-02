@@ -128,16 +128,15 @@ loop do
   prompt "Decide who makes the first move! 'p' if you want to start the game or 'c' if you want the computer to start"
   display_board(board)
   loop do
-  choose = gets.chomp
-  if choose == 'c'
-    computer_starts_game(board)
-    break
-  elsif choose == 'p'
-    break
-  else prompt "That's not a valid choice!"
-  end
+    choose = gets.chomp
+    if choose == 'c'
+      computer_starts_game(board)
+      break
+    elsif choose == 'p'
+      break
+    else prompt "That's not a valid choice!"
+    end
 end
-
 
   loop do
     display_board(board)
@@ -156,7 +155,6 @@ end
   else
     prompt "It's a tie!"
   end
-
 
   scores_tally(scores, board)
 
