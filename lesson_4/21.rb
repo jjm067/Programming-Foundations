@@ -4,7 +4,7 @@ cards = [['Hearts', 2], ['Hearts', 3], ['Hearts', 4], ['Hearts', 5], ['Hearts', 
  ['Clubs', 2], ['Clubs', 3], ['Clubs', 4], ['Clubs', 5], ['Clubs', 6], ['Clubs', 7], ['Clubs', 8], ['Clubs', 9], ['Clubs', 10], ['Clubs', 'Jack'], ['Clubs', 'Queen'], ['Clubs', 'King'], ['Clubs', 'Ace']]
 
 def prompt(msg)
-   puts "=>  #{msg}"
+  puts "=>  #{msg}"
 end
 
 def total(cards)
@@ -14,14 +14,14 @@ def total(cards)
   values.each do |value|
     if value == "Ace"
       sum += 11
-      elsif value.to_i == 0
+    elsif value.to_i == 0
       sum += 10
     else
       sum += value.to_i
     end
   end
   values.select { |value| value == "Ace" }.count.times do
-  sum -= 10 if sum > 21
+    sum -= 10 if sum > 21
   end
   sum
 end
@@ -47,6 +47,8 @@ def detect_winner(player, dealer)
     :player_busts
   elsif busted(dealer)
     :dealer_busts
+  elsif busted(player) && busted(dealer)
+    :both_busts
   elsif player_total > dealer_total
     :player
   elsif dealer_total > player_total
@@ -59,17 +61,19 @@ end
 def display_winner(player, dealer)
   results = detect_winner(player, dealer)
   puts case results
-  when :player_busts
-    "You bust. Dealer wins!"
-  when :dealer_busts
-    "Dealer busts. You win!"
-  when :player
-    "You win!"
-  when :dealer
-    "Dealer wins!"
-  when :tie
-    "It's a tie!"
-  end
+       when :player_busts
+         "You bust. Dealer wins!"
+       when :dealer_busts
+         "Dealer busts. You win!"
+       when :both_busts
+         "You both bust!"
+       when :player
+         "You win!"
+       when :dealer
+         "Dealer wins!"
+       when :tie
+         "It's a tie!"
+       end
 end
 
 prompt "Welcome to Twenty One!  This game is just like Black Jack, except there is no doubling down."
@@ -94,14 +98,14 @@ loop do
     break if answer == 'stay' || busted(player_hand)
   end
   prompt "Dealer turn:"
-    while total(dealer_hand) < 17
+  while total(dealer_hand) < 17
     hit(dealer_hand, cards)
-      prompt "Dealer has hit"
-    end
-    if total(dealer_hand) >= 17
-      prompt "Dealer has stayed"
-    end
-    display_winner(player_hand, dealer_hand)
+    prompt "Dealer has hit"
+  end
+  if total(dealer_hand) >= 17
+    prompt "Dealer has stayed"
+  end
+  display_winner(player_hand, dealer_hand)
   puts "Player hand: #{player_hand}"
   puts "Dealer hand: #{dealer_hand}"
   prompt "Do you want to play again?"
